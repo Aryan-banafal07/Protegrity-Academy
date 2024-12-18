@@ -32,7 +32,7 @@
         nav .logo h2 {
             font-size: 1.8rem;
             color: #081b35;
-            background: url('https://media.istockphoto.com/id/187822312/vector/art-abstract-blue.jpg?s=612x612&w=0&k=20&c=XCJlMZLjC6Duuq7eYIzdeFklFU5l0') no-repeat center center/cover;        }
+        }
 
         nav ul {
             list-style: none;
@@ -40,7 +40,7 @@
         }
 
         nav ul li {
-            margin-left: 20px;
+            margin-left: 50px;
         }
 
         nav ul li a {
@@ -181,7 +181,9 @@
 <body>
     <nav>
         <div class="logo">
-         <a href="main.html">  <img src="https://cybersecurity-excellence-awards.com/wp-content/uploads/2020/12/151049.png" alt="Protegrity Academy Logo" style="height: 50px;"> </a> 
+            <a href="main.html">
+                <img src="https://cybersecurity-excellence-awards.com/wp-content/uploads/2020/12/151049.png" alt="Protegrity Academy Logo" style="height: 50px;">
+            </a>
         </div>
         <ul>
             <li><a href="#">Home</a></li>
@@ -193,58 +195,60 @@
 
     <header>
         <h1>Protegrity Academy</h1>
-        <p>We have a dedicated team of trainers, developers and leaders committed to the professional growth and development of:
-
-            Protegrity Employees | Internal Enablement
-            Clients & Partners | External Enablement
-            
-            We design, source, develop, and deliver educational programs utilizing various media and methodologies. The Enablement team also manages key learning & enablement platforms such as Adobe Learning Manager, Udemy.</p>
+        <p>
+            We have a dedicated team of trainers, developers, and leaders committed to the professional growth of Protegrity Employees, Clients, and Partners.
+            <br>We design, source, develop, and deliver educational programs utilizing various media and methodologies.
+        </p>
     </header>
 
     <div class="filter-bar">
-        <button onclick="filterCards('all')">All Courses</button>
+        <button onclick="filterCards('all')">All</button>
+        <button onclick="filterCards('Subscriptions')">Subscriptions</button>
         <button onclick="filterCards('Data')">Self-Paced Trainings</button>
-        <button onclick="filterCards('Cloud')">Instructor Led Trainings</button>
-        <button onclick="filterCards('Database')">Webinars</button>
+        <button onclick="filterCards('Cloud')">Instructor-Led Trainings</button>
+        <button onclick="filterCards('Database')">Certifications</button>
     </div>
 
-    <div class="content">
-        <!-- Course Cards -->
-        <script>
-            const courses = [
-                { title: "Protegrity’s Data Protection Fundamentals", category: "Data", duration: "4 hours" },
-                { title: "Protegrity Discover", category: "Data", duration: "6 hours" },
-                { title: "Protegrity’s Enterprise Security Administrator", category: "Data", duration: "8 hours" },
-                { title: "Cloud API on AWS", category: "Cloud", duration: "4 hours" },
-                { title: "Cloud API on Azure", category: "Cloud", duration: "6 hours" },
-                { title: "Snowflake Protector on AWS", category: "Cloud", duration: "5 hours" },
-                { title: "Protegrity’s Application Protector for Java", category: "Database", duration: "7 hours" },
-                { title: "Protegrity’s Database Protector for Oracle", category: "Database", duration: "8 hours" },
-                { title: "JDBC Protector", category: "Database", duration: "6 hours" },
-            ];
-            
-            const content = document.querySelector('.content');
-            courses.forEach(course => {
-                content.innerHTML += `
-                    <div class="card" data-category="${course.category}">
-                        <h3>${course.title}</h3>
-                        <p class="description">An essential course to master ${course.title} concepts.</p>
-                        <ul class="details">
-                            <li>🕒 <strong>Duration:</strong> ${course.duration}</li>
-                            <li>📋 <strong>Level:</strong> Intermediate</li>
-                        </ul>
-                      <a href="http://learningmanager.adobe.com/protegrity" target="_blank">  <button class="learn-more-btn">Learn more ➜</button></a>
-                    </div>
-                `;
-            });
-        </script>
-    </div>
+    <div class="content"></div>
 
     <div class="footer">
         <p>&copy; 2024 Protegrity Academy. All rights reserved.</p>
     </div>
 
     <script>
+        const courses = [
+            { title: "Protegrity’s Data Protection Fundamentals", category: "Data", duration: "4 hours" },
+            { title: "Protegrity Discover", category: "Data", duration: "6 hours" },
+            { title: "Protegrity’s Enterprise Security Administrator", category: "Data", duration: "8 hours" },
+            { title: "Cloud API on AWS", category: "Cloud", duration: "4 hours" },
+            { title: "Cloud API on Azure", category: "Cloud", duration: "6 hours" },
+            { title: "Snowflake Protector on AWS", category: "Cloud", duration: "5 hours" },
+            { title: "Protegrity’s Application Protector for Java", category: "Database", duration: "7 hours" },
+            { title: "Protegrity’s Database Protector for Oracle", category: "Database", duration: "8 hours" },
+            { title: "JDBC Protector", category: "Database", duration: "6 hours" },
+            { title: "Subscription No. 1: Fundamentals", category: "Subscriptions", description: "Fundamentals-History, Overview, Data Protection Methodology. Self-paced only. Knowledge check Test.", duration: "Varies" },
+            { title: "Subscription No. 2: Protegrity Essentials Course", category: "Subscriptions", description: "Includes Subscription No. 1. Prerequisite: Fundamentals. Certificate of Completion only. Two pricing options: Blended Learning or Instructor-led.", duration: "Varies" },
+            { title: "Subscription No. 3: Custom Subscription for Individual training Courses", category: "Subscriptions", description: "Select individual modules with 3 delivery options: Self-paced, Blended Learning, or Instructor-led.", duration: "Varies" },
+            { title: "Subscription No. 4: All Customer-facing Self-paced training Courses", category: "Subscriptions", description: "Includes Subscriptions No. 1 to 3. No labs available.", duration: "Varies" },
+            { title: "Subscription No. 5: Certification Trainings", category: "Subscriptions", description: "Includes Foundational Certification with no prerequisite. Delivery: Self-paced. Certification Exam included.", duration: "Varies" }
+        ];
+
+        const content = document.querySelector('.content');
+        courses.forEach(course => {
+            content.innerHTML += `
+                <div class="card" data-category="${course.category}">
+                    <h3>${course.title}</h3>
+                    <p class="description">${course.description || `An essential course to master ${course.title} concepts.`}</p>
+                    <ul class="details">
+                        <li>🕒 <strong>Duration:</strong> ${course.duration}</li>
+                    </ul>
+                    <a href="http://learningmanager.adobe.com/protegrity" target="_blank">
+                        <button class="learn-more-btn">Learn more ➜</button>
+                    </a>
+                </div>
+            `;
+        });
+
         function filterCards(category) {
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
