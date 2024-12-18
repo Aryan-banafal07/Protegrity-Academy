@@ -226,11 +226,11 @@
             { title: "Protegrity’s Application Protector for Java", category: "Database", duration: "7 hours" },
             { title: "Protegrity’s Database Protector for Oracle", category: "Database", duration: "8 hours" },
             { title: "JDBC Protector", category: "Database", duration: "6 hours" },
-            { title: "Subscription No. 1: Fundamentals", category: "Subscriptions", description: "Fundamentals-History, Overview, Data Protection Methodology. Self-paced only. Knowledge check Test.", duration: "Varies" },
-            { title: "Subscription No. 2: Protegrity Essentials Course", category: "Subscriptions", description: "Includes Subscription No. 1. Prerequisite: Fundamentals. Certificate of Completion only. Two pricing options: Blended Learning or Instructor-led.", duration: "Varies" },
-            { title: "Subscription No. 3: Custom Subscription for Individual training Courses", category: "Subscriptions", description: "Select individual modules with 3 delivery options: Self-paced, Blended Learning, or Instructor-led.", duration: "Varies" },
-            { title: "Subscription No. 4: All Customer-facing Self-paced training Courses", category: "Subscriptions", description: "Includes Subscriptions No. 1 to 3. No labs available.", duration: "Varies" },
-            { title: "Subscription No. 5: Certification Trainings", category: "Subscriptions", description: "Includes Foundational Certification with no prerequisite. Delivery: Self-paced. Certification Exam included.", duration: "Varies" }
+            { title: "Basic Subscription: Protegrity Fundamentals", category: "Subscriptions", description: "Fundamentals-History, Overview, Data Protection Methodology. Self-paced only. Knowledge check Test.", duration: "Varies" },
+            { title: "Essential Subscription: Protegrity Essentials Course", category: "Subscriptions", description: "Includes Subscription No. 1. Prerequisite: Fundamentals. Certificate of Completion only. Two pricing options: Blended Learning or Instructor-led.", duration: "Varies" },
+            { title: "Customized Subscription: Custom Subscription for Individual training Courses", category: "Subscriptions", description: "Select individual modules with 3 delivery options: Self-paced, Blended Learning, or Instructor-led.", duration: "Varies" },
+            { title: "Prime Subscription: All Customer-facing Self-paced training Courses", category: "Subscriptions", description: "Includes Subscriptions No. 1 to 3. No labs available.", duration: "Varies" },
+            { title: "Certification Subscription: Certification Trainings", category: "Subscriptions", description: "Includes Foundational Certification with no prerequisite. Delivery: Self-paced. Certification Exam included.", duration: "Varies" }
         ];
 
         const content = document.querySelector('.content');
@@ -259,6 +259,41 @@
                 }
             });
         }
+
+
+        function filterCards(category) {
+    const content = document.querySelector('.content');
+    
+    if (category === 'Database') {
+        // Clear the content and show the image
+        content.innerHTML = `
+            <img src="1.jpeg" alt="Certification Image" style="width:100%; border-radius:12px;">
+        `;
+    } else {
+        // Clear the content and re-render the cards
+        content.innerHTML = ''; // Clear the previous content
+
+        courses.forEach(course => {
+            if (category === 'all' || course.category === category) {
+                content.innerHTML += `
+                    <div class="card" data-category="${course.category}">
+                        <h3>${course.title}</h3>
+                        <p class="description">${course.description || `An essential course to master ${course.title} concepts.`}</p>
+                        <ul class="details">
+                            <li>🕒 <strong>Duration:</strong> ${course.duration}</li>
+                        </ul>
+                        <a href="http://learningmanager.adobe.com/protegrity" target="_blank">
+                            <button class="learn-more-btn">Learn more ➜</button>
+                        </a>
+                    </div>
+                `;
+            }
+        });
+    }
+}
+
+
+
     </script>
 </body>
 </html>
