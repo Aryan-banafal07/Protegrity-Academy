@@ -176,6 +176,42 @@
             text-align: center;
             padding: 10px 0;
         }
+
+        .loading {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #16a34a;
+            margin-top: 20px;
+        }
+
+        .certification-image-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .certification-image-container img {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .certification-image-container button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            background-color: rgba(22, 163, 74, 0.8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .certification-image-container button:hover {
+            background-color: rgba(21, 128, 61, 0.9);
+        }
     </style>
 </head>
 <body>
@@ -202,14 +238,14 @@
     </header>
 
     <div class="filter-bar">
-        <button onclick="filterCards('all')">All</button>
-        <button onclick="filterCards('Subscriptions')">Subscriptions</button>
-        <button onclick="filterCards('Data')">Self-Paced Trainings</button>
-        <button onclick="filterCards('Cloud')">Instructor-Led Trainings</button>
-        <button onclick="filterCards('Database')">Certifications</button>
+        <button onclick="loadCards('all')">Self-Paced Trainings</button>
+        <button onclick="loadCards('instructor')">Instructor-Led Trainings</button>
+        <button onclick="loadCards('Database')">Certifications</button>
     </div>
 
-    <div class="content"></div>
+    <div class="content">
+        <!-- Cards will be loaded here -->
+    </div>
 
     <div class="footer">
         <p>&copy; 2024 Protegrity Academy. All rights reserved.</p>
@@ -217,83 +253,70 @@
 
     <script>
         const courses = [
-            { title: "Protegrity’s Data Protection Fundamentals", category: "Data", duration: "4 hours" },
-            { title: "Protegrity Discover", category: "Data", duration: "6 hours" },
-            { title: "Protegrity’s Enterprise Security Administrator", category: "Data", duration: "8 hours" },
-            { title: "Cloud API on AWS", category: "Cloud", duration: "4 hours" },
-            { title: "Cloud API on Azure", category: "Cloud", duration: "6 hours" },
-            { title: "Snowflake Protector on AWS", category: "Cloud", duration: "5 hours" },
-            { title: "Protegrity’s Application Protector for Java", category: "Database", duration: "7 hours" },
-            { title: "Protegrity’s Database Protector for Oracle", category: "Database", duration: "8 hours" },
-            { title: "JDBC Protector", category: "Database", duration: "6 hours" },
-            { title: "Basic Subscription: Protegrity Fundamentals", category: "Subscriptions", description: "Fundamentals-History, Overview, Data Protection Methodology. Self-paced only. Knowledge check Test.", duration: "Varies" },
-            { title: "Essential Subscription: Protegrity Essentials Course", category: "Subscriptions", description: "Includes Subscription No. 1. Prerequisite: Fundamentals. Certificate of Completion only. Two pricing options: Blended Learning or Instructor-led.", duration: "Varies" },
-            { title: "Customized Subscription: Custom Subscription for Individual training Courses", category: "Subscriptions", description: "Select individual modules with 3 delivery options: Self-paced, Blended Learning, or Instructor-led.", duration: "Varies" },
-            { title: "Prime Subscription: All Customer-facing Self-paced training Courses", category: "Subscriptions", description: "Includes Subscriptions No. 1 to 3. No labs available.", duration: "Varies" },
-            { title: "Certification Subscription: Certification Trainings", category: "Subscriptions", description: "Includes Foundational Certification with no prerequisite. Delivery: Self-paced. Certification Exam included.", duration: "Varies" }
+            { title: "Protegrity’s Data Protection Fundamentals", category: "Data", duration: "4 hours", description: "An essential course to master Protegrity’s Data Protection Fundamentals concepts." },
+            { title: "Protegrity Discover", category: "Data", duration: "6 hours", description: "An essential course to master Protegrity Discover concepts." },
+            { title: "Protegrity’s Enterprise Security Administrator", category: "Security", duration: "8 hours", description: "An essential course to master Protegrity’s Enterprise Security Administrator concepts." },
+            { title: "Cloud API on AWS", category: "Cloud", duration: "4 hours", description: "An essential course to master Cloud API on AWS concepts." },
+            { title: "Cloud API on Azure", category: "Cloud", duration: "6 hours", description: "An essential course to master Cloud API on Azure concepts." },
+            { title: "Snowflake Protector on AWS", category: "Cloud", duration: "5 hours", description: "An essential course to master Snowflake Protector on AWS concepts." },
+            { title: "Protegrity’s Application Protector for Java", category: "Security", duration: "7 hours", description: "An essential course to master Protegrity’s Application Protector for Java concepts." },
+            { title: "Protegrity’s Database Protector for Oracle", category: "Database", duration: "8 hours", description: "An essential course to master Protegrity’s Database Protector for Oracle concepts." },
+            { title: "JDBC Protector", category: "Database", duration: "6 hours", description: "An essential course to master JDBC Protector concepts." },
+            { title: "Instructor-Led Data Protection Fundamentals", category: "Instructor", duration: "5 hours", description: "Instructor-led training to enhance your understanding of data protection principles." },
+            { title: "Instructor-Led Cloud API on AWS", category: "Instructor", duration: "6 hours", description: "Instructor-led training on Cloud API integration with AWS." },
+            { title: "Instructor-Led Snowflake Protector", category: "Instructor", duration: "5 hours", description: "Instructor-led training on protecting Snowflake environments." }
         ];
 
         const content = document.querySelector('.content');
-        courses.forEach(course => {
-            content.innerHTML += `
-                <div class="card" data-category="${course.category}">
-                    <h3>${course.title}</h3>
-                    <p class="description">${course.description || `An essential course to master ${course.title} concepts.`}</p>
-                    <ul class="details">
-                        <li>🕒 <strong>Duration:</strong> ${course.duration}</li>
-                    </ul>
-                    <a href="http://learningmanager.adobe.com/protegrity" target="_blank">
-                        <button class="learn-more-btn">Learn more ➜</button>
-                    </a>
-                </div>
-            `;
-        });
 
-        function filterCards(category) {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+        function loadCards(category) {
+    content.innerHTML = '<div class="loading">Loading...</div>'; // Show loading text
+    let link = 'http://learningmanager.adobe.com/protegrity'; // Default link for all trainings
 
+    // Set the correct link for instructor-led trainings
+    if (category === 'instructor') {
+        // Define a custom link for instructor-led trainings, e.g.:
+        link = 'https://www.eventbrite.com/e/569011327197?aff=oddtdtcreator'; // Modify this with your desired link for instructor-led trainings
+    }
 
-        function filterCards(category) {
-    const content = document.querySelector('.content');
-    
     if (category === 'Database') {
-        // Clear the content and show the image
         content.innerHTML = `
-            <img src="https://i.imghippo.com/files/beyd9058J.jpeg" alt="Certification Image" style="width:100%; border-radius:12px;">
+            <div class="certification-image-container">
+                <img src="https://i.imghippo.com/files/beyd9058J.jpeg" alt="Certification Image">
+                <button onclick="window.open('http://learningmanager.adobe.com/protegrity', '_blank')">View Certifications</button>
+            </div>
         `;
     } else {
-        // Clear the content and re-render the cards
-        content.innerHTML = ''; // Clear the previous content
+        setTimeout(() => {
+            let coursesFiltered = category === 'all' || category === 'instructor' 
+                ? courses 
+                : courses.filter(course => course.category === category);
 
-        courses.forEach(course => {
-            if (category === 'all' || course.category === category) {
-                content.innerHTML += `
-                    <div class="card" data-category="${course.category}">
-                        <h3>${course.title}</h3>
-                        <p class="description">${course.description || `An essential course to master ${course.title} concepts.`}</p>
-                        <ul class="details">
-                            <li>🕒 <strong>Duration:</strong> ${course.duration}</li>
-                        </ul>
-                        <a href="http://learningmanager.adobe.com/protegrity" target="_blank">
-                            <button class="learn-more-btn">Learn more ➜</button>
-                        </a>
-                    </div>
-                `;
+            if (coursesFiltered.length === 0) {
+                content.innerHTML = `<p>No courses found for this category.</p>`;
+            } else {
+                content.innerHTML = ''; // Clear the loading text
+                coursesFiltered.forEach(course => {
+                    content.innerHTML += `
+                        <div class="card" data-category="${course.category}">
+                            <h3>${course.title}</h3>
+                            <p class="description">${course.description}</p>
+                            <ul class="details">
+                                <li>🕒 <strong>Duration:</strong> ${course.duration}</li>
+                            </ul>
+                            <a href="${link}" target="_blank">
+                                <button class="learn-more-btn">Learn more ➜</button>
+                            </a>
+                        </div>
+                    `;
+                });
             }
-        });
+        }, 200); // Simulate a delay (e.g., loading time)
     }
 }
 
-
-
+        // Load all cards by default on page load
+        loadCards('all');
     </script>
 </body>
 </html>
