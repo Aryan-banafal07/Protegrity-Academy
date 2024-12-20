@@ -121,18 +121,17 @@
         }
 
         .card {
-    background-color: white;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 25px;
-    transition: transform 0.3s ease;
-    color: #333;
-    max-width: 100%; /* Ensure card doesn't exceed its container's width */
-    word-wrap: break-word; /* Ensure long words wrap within the card */
-    overflow: hidden; /* Hide any overflow */
-}
-
+            background-color: white;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.3s ease;
+            color: #333;
+            max-width: 100%; /* Ensure card doesn't exceed its container's width */
+            word-wrap: break-word; /* Ensure long words wrap within the card */
+            overflow: hidden; /* Hide any overflow */
+        }
 
         .card:hover {
             transform: translateY(-8px);
@@ -212,28 +211,29 @@
         .certification-image-container button:hover {
             background-color: rgba(21, 128, 61, 0.9);
         }
-        .card .more-info {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f9fafb;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: #6b7280;
-    font-size: 1rem;
-    line-height: 1.5;
-    transition: opacity 0.3s ease;
-    max-width: 100%; /* Ensure it doesn't overflow */
-    word-wrap: break-word; /* Wrap long words */
-    overflow: hidden; /* Hide overflowed content */
-}
 
-.card .more-info pre {
-    white-space: pre-wrap; /* Allow the text to wrap */
-    word-wrap: break-word; /* Ensure the words break if they're too long */
-    font-family: monospace; /* Ensure it's monospace font */
-    color: #333; /* Ensure it's readable */
-}
+        .card .more-info {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9fafb;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #6b7280;
+            font-size: 1rem;
+            line-height: 1.5;
+            transition: opacity 0.3s ease;
+            max-width: 100%; /* Ensure it doesn't overflow */
+            word-wrap: break-word; /* Wrap long words */
+            overflow: hidden; /* Hide overflowed content */
+        }
+
+        .card .more-info pre {
+            white-space: pre-wrap; /* Allow the text to wrap */
+            word-wrap: break-word; /* Ensure the words break if they're too long */
+            font-family: monospace; /* Ensure it's monospace font */
+            color: #333; /* Ensure it's readable */
+        }
 
         .card.expanded .more-info {
             display: block;
@@ -294,7 +294,7 @@
 
     <script>
         const courses = [
-            { title: "Protegrity’s Data Protection Fundamentals", category: "Data", duration: "4 hours", description: "An essential course to master Protegrity’s Data Protection Fundamentals concepts." },
+            { title: "Protegrity’s Data Protection Fundamentals", category: "Data", duration: "1.5 hour", description: "An essential course to master Protegrity’s Data Protection Fundamentals concepts." },
             { title: "Protegrity Discover", category: "Data", duration: "6 hours", description: "An essential course to master Protegrity Discover concepts." },
             { title: "Protegrity’s Enterprise Security Administrator", category: "Security", duration: "8 hours", description: "An essential course to master Protegrity’s Enterprise Security Administrator concepts." },
             { title: "Cloud API on AWS", category: "Cloud", duration: "4 hours", description: "An essential course to master Cloud API on AWS concepts." },
@@ -337,6 +337,12 @@
                     } else {
                         content.innerHTML = ''; // Clear the loading text
                         coursesFiltered.forEach(course => {
+                            // Adjust the details for instructor-led courses
+                            if (category === 'instructor' && course.title === "Protegrity’s Data Protection Fundamentals") {
+                                course.duration = "4 hours";
+                                course.description = "Instructor-led version of Protegrity’s Data Protection Fundamentals, designed for deeper understanding.";
+                            }
+                            
                             content.innerHTML += `
                                 <div class="card" data-category="${course.category}">
                                     <h3>${course.title}</h3>
@@ -349,15 +355,15 @@
                                     <div class="more-info">
                                         <pre> 
 <strong>Course Details:</strong>
-Protegrity’s Data Protection Fundamentals
+${course.title}
 
-<strong>Duration: 1.5 Hour </strong>
+<strong>Duration: ${course.duration} </strong>
 <strong>Audience: All</strong>
 <strong>Recommended Prerequisite: None</strong>
 
 <strong>Description:</strong>
-Protegrity’s Data Protection Fundamentals training course is designed to give you a high-level overview of Protegrity’s data protection platform, how to define and discover sensitive data, how to protect data, selecting a protection method, and how to create and deploy a policy for data security.
-   
+${course.description}
+
  No lab exercise included.
 
 <strong>Agenda:</strong>
